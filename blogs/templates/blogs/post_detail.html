@@ -1,0 +1,88 @@
+{% extends "blogs/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+<h2>{{ post.blog.text }} - Post Details</h2>
+{% endblock page_header %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    <!-- Пост -->
+    <article class="card mb-4">
+      <div class="card-header">
+        <h4>{{ post.date_added|date:"F d, Y at H:i" }}</h4>
+        <small class="text-muted">by {{ post.blog.owner.username }}</small>
+      </div>
+      <div class="card-body">
+        <div class="post-content">
+          {{ post.text|linebreaks }}
+        </div>
+      </div>
+    </article>
+
+    <!-- Комментарии -->
+    <div class="card">
+      <div class="card-header">
+        <h5>Comments ({{ comments|length }})</h5>
+      </div>
+      <div class="card-body">
+        {% for comment in comments %}
+          <div class="border-bottom mb-3 pb-3">
+            <div class="d-flex justify-content-between align-items-start">
+              <strong>{{ comment.author.username }}</strong>
+              <small class="text-muted">{{ comment.created_at|date:"M d, Y H:i" }}</small>
+            </div>
+            <p class="mt-2 mb-0">{{ comment.text|linebreaks }}</p>
+          </div>
+        {% empty %}
+          <p class="text-muted">No comments yet. Be the first to comment!</p>
+        {% endfor %}
+
+        <!-- Форма добавления комментария -->
+        {% if user.is_authenticated %}
+          <div class="mt-4">
+            <h6>Add a comment:</h6>
+            <form action="" method="post">
+              {% csrf_token %}
+              {% bootstrap_form form %}
+              <button type="submit" class="btn btn-primary btn-scale">Add Comment</button>
+            </form>
+          </div>
+        {% else %}
+          <div class="mt-4 text-center">
+            <p class="text-muted">
+              You must <a href="{% url 'accounts:login' %}">log in</a> to leave a comment.
+            </p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <h6>Post Info</h6>
+        <ul class="list-unstyled">
+          <li><strong>Blog:</strong> {{ post.blog.text }}</li>
+          <li><strong>Author:</strong> {{ post.blog.owner.username }}</li>
+          <li><strong>Published:</strong> {{ post.date_added|date:"M d, Y" }}</li>
+          <li><strong>Comments:</strong> {{ comments|length }}</li>
+        </ul>
+        <hr>
+        <div class="d-grid gap-2">
+          <a href="{% url 'blogs:blog' post.blog.id %}" class="btn btn-outline-secondary btn-scale">
+            ← Back to Blog
+          </a>
+          {% if user == post.blog.owner %}
+            <a href="{% url 'blogs:edit_post' post.id %}" class="btn btn-outline-primary btn-scale">
+              Edit Post
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

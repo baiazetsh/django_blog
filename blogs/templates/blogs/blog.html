@@ -1,0 +1,81 @@
+{% extends "blogs/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="text-primary">{{ blog.text }}</h1>
+    <p class="text-muted">by {{ blog.owner.username }}</p>
+  </div>
+  <a href="{% url 'blogs:new_post' blog.id %}" class="btn btn-success btn-lg btn-scale">
+    <i class="fas fa-plus"></i> Add New Post
+  </a>
+</div>
+{% endblock page_header %}
+
+{% block content %}
+<div class="row">
+  <div class="col-lg-8">
+    {% for post in posts %}
+      <article class="card mb-4 shadow-sm post-card">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="mb-1 text-dark">Post #{{ forloop.counter }}</h5>
+            <small class="text-muted">
+              <i class="fas fa-calendar"></i> {{ post.date_added|date:'F d, Y at H:i' }}
+            </small>
+          </div>
+          <a href="{% url 'blogs:edit_post' post.id %}" class="btn btn-outline-primary btn-sm btn-scale">
+            <i class="fas fa-edit"></i> Edit
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="post-content">
+            {{ post.text|linebreaks }}
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="{% url 'blogs:post_detail' post.id %}" class="btn btn-outline-info btn-sm btn-scale">
+              <i class="fas fa-comments"></i> View Comments ({{ post.comments.count }})
+            </a>
+            <small class="text-muted">{{ post.comments.count }} comment{{ post.comments.count|pluralize }}</small>
+          </div>
+        </div>
+      </article>
+    {% empty %}
+      <div class="text-center py-5">
+        <div class="mb-4">
+          <i class="fas fa-pen-alt fa-4x text-muted"></i>
+        </div>
+        <h3 class="text-muted">No posts yet</h3>
+        <p class="text-muted mb-4">Start sharing your thoughts with the world!</p>
+        <a href="{% url 'blogs:new_post' blog.id %}" class="btn btn-primary btn-lg btn-scale">
+          <i class="fas fa-plus"></i> Write Your First Post
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <div class="col-lg-4">
+    <div class="card bg-light">
+      <div class="card-body">
+        <h5 class="card-title">Blog Stats</h5>
+        <ul class="list-unstyled">
+          <li><strong>Total Posts:</strong> {{ posts|length }}</li>
+          <li><strong>Author:</strong> {{ blog.owner.username }}</li>
+          <li><strong>Created:</strong> {{ blog.date_added|date:'M d, Y' }}</li>
+        </ul>
+        <hr>
+        <div class="d-grid gap-2">
+          <a href="{% url 'blogs:bloges' %}" class="btn btn-outline-secondary btn-scale">
+            <i class="fas fa-arrow-left"></i> Back to All Blogs
+          </a>
+          <a href="{% url 'blogs:new_post' blog.id %}" class="btn btn-primary btn-scale">
+            <i class="fas fa-plus"></i> Add New Post
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}

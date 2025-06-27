@@ -1,0 +1,167 @@
+/* Общие стили */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+/* Стили для карточек блогов */
+.blog-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e3e6f0;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    border-color: #5a5c69;
+}
+
+/* Стили для постов */
+.post-card {
+    border-left: 4px solid #007bff;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    transition: all 0.3s ease;
+}
+
+.post-card:hover {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transform: translateX(5px);
+}
+
+.post-header {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0;
+}
+
+.post-date {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.post-content {
+    padding: 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* Эффекты для кнопок */
+.btn-scale {
+    transition: all 0.3s ease;
+}
+
+.btn-scale:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.btn-scale:active {
+    transform: scale(0.98);
+}
+
+/* Заголовки */
+h1, h2, h3 {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.page-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem 0;
+    margin: -1rem -15px 2rem -15px;
+    text-align: center;
+}
+
+/* Навигация */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Анимации */
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Стили для списков */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .post-card {
+        margin-left: 0;
+        border-left: none;
+        border-top: 4px solid #007bff;
+    }
+    
+    .post-card:hover {
+        transform: translateY(-3px);
+    }
+}
+
+/* Существующие стили для кнопок */
+.btn-scale {
+    transition: all 0.3s ease;
+}
+
+.btn-scale:hover {
+    transform: scale(1.05);
+}
+
+.btn-scale:active {
+    transform: scale(0.95);
+}
+
+/* Стили для постов блога */
+.post-card {
+    transition: all 0.3s ease;
+    border-left: 4px solid #007bff;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+.post-content {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #495057;
+}
+
+.card-header {
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .post-card {
+        border-left: none;
+        border-top: 4px solid #007bff;
+    }
+}
+.post-content p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.post-content strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #003366;
+  margin-bottom: 0.25rem;
+}
+
