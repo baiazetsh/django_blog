@@ -8,10 +8,12 @@ Django==5.2.1
 django-bootstrap5==25.1
 django-extensions @ git+https://github.com/django-extensions/django-extensions.git@25a41d8a3ecb24c009c5f4cac6010a091a3c91c8
 django-taggit==6.1.0
+gunicorn==23.0.0
 idna==3.10
 Markdown==3.4.1
 MarkupSafe==3.0.2
 oauthlib==3.2.2
+packaging==25.0
 pillow==11.2.1
 psycopg2-binary==2.9.10
 pycparser==2.22
