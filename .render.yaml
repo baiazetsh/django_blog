@@ -2,10 +2,16 @@ services:
   - type: web
     name: django-blog
     env: python
-    buildCommand: "./venv/Scripts/activate && pip install -r requirements.txt"
+    buildCommand: "pip install -r requirements.txt"
     startCommand: "gunicorn django_blog.wsgi"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: django_blog.settings
       - key: PYTHON_VERSION
         value: 3.11
+      - key: DATABASE_URL
+        value: postgresql://blog_db_k2sf_user:D0xQj1krRL5pSro8qjHykzeujlz4u3ze@dpg-d1futfripnbc73a387fg-a.oregon-postgres.render.com/blog_db_k2sf
+      - key: SECRET_KEY
+        value: django-insecure-xwwgoz@ykt22_&x5+izz05_l0#pqb0+g&*(9fjn%iea2+2vg3-
+      - key: DEBUG
+        value: False
