@@ -1,10 +1,52 @@
 {% extends "blogs/base.html" %}
+{% load django_bootstrap5 %}
+
+{% block page_header %}
+<h2>Registration</h2>
+{% endblock page_header %}
+
 {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    
+    <!-- Сообщения об ошибках -->
+    {% if form.errors %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h5><i class="fas fa-exclamation-triangle"></i> Registration Failed!</h5>
+        <p>Please correct the errors below:</p>
+        <ul class="mb-0">
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <li><strong>{{ field|capfirst }}:</strong> {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      </div>
+    {% endif %}
 
-<form action="{% url 'accounts:register' %}"method='post'>
-    {% csrf_token%}
-    {{ form.as_p }}
-    <button name="submit">Registration</buton>
-</form>
-
-{% endblock content %} 
+    <!-- Форма регистрации -->
+    <div class="card">
+      <div class="card-body">
+        <form action="{% url 'accounts:register' %}" method='post'>
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg btn-scale">
+              <i class="fas fa-user-plus"></i> Register
+            </button>
+          </div>
+        </form>
+        
+        <hr>
+        <div class="text-center">
+          <p class="text-muted">Already have an account?</p>
+          <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary btn-scale">
+            Log In
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
