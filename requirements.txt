@@ -33,3 +33,4 @@ typing_extensions==4.14.0
 tzdata==2025.2
 urllib3==1.26.20
 Werkzeug==2.2.2
+whitenoise==6.9.0
