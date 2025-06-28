@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: django-blog
+    env: python
+    buildCommand: "./venv/Scripts/activate && pip install -r requirements.txt"
+    startCommand: "gunicorn django_blog.wsgi"
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: django_blog.settings
+      - key: PYTHON_VERSION
+        value: 3.11
