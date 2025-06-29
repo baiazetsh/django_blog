@@ -1,8 +1,13 @@
 from pathlib import Path
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 import dj_database_url
 from dotenv import load_dotenv
 load_dotenv()
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -12,7 +17,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+#DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
+DEBUG = False
+
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'baiazet.com', 'www.baiazet.com']
 
@@ -21,6 +28,8 @@ INSTALLED_APPS = [
     'accounts',
     'blogs',
     'django_bootstrap5',
+    'cloudinary',
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -88,11 +97,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
-LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
-USE_I18N = True
-USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
@@ -139,3 +143,27 @@ else:
     CSRF_COOKIE_SECURE = False
 
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Internationalization
+LANGUAGE_CODE = 'ru-RU'  # или 'en-us'
+TIME_ZONE = 'America/New_York'  # Замените на нужную временную зону
+USE_I18N = True
+
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'your_cloud_name',
+    'API_KEY': 'your_api_key',
+    'API_SECRET': 'your_api_secret',
+}
+cloudinary.config( 
+  cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"), 
+  api_key = os.getenv("CLOUDINARY_API_KEY"), 
+  api_secret = os.getenv("CLOUDINARY_API_SECRET") 
+)
+
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = 'us-east-1'  # или другой регион
+AWS_QUERYSTRING_AUTH = False

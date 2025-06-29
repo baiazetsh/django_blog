@@ -1,28 +1,44 @@
 {% extends "blogs/base.html" %}
 
 {% block page_header %}
-<div class="jumbotron text-center py-5 mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-  <h1 class="display-4">Welcome to Blogs</h1>
+<div class="jumbotron text-center py-2 mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+  <h6 class="display-5">Welcome to Blogs</h6>
   <p class="lead">Share your thoughts and read amazing stories</p>
   <a class="btn btn-light btn-lg btn-scale" href="{% url 'blogs:new_blog' %}">Create Your Blog</a>
 </div>
 {% endblock page_header %}
 
 {% block content %}
-<div class="row">
-  <div class="col-md-8">
-    <h2>Latest Blogs</h2>
-    <div class="row">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Latest Blogs</h2>
       {% for blog in blogs %}
-        <div class="col-md-6 mb-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <h5 class="card-title">{{ blog.text }}</h5>
-              <p class="card-text">
-                <small class="text-muted">by {{ blog.owner.username }}</small><br>
-                <small class="text-muted">{{ blog.post_set.count }} posts</small>
-              </p>
-              <a href="{% url 'blogs:blog' blog.id %}" class="btn btn-primary btn-scale">Read</a>
+        <div class="card mb-3 blog-card-clickable" data-url="{% url 'blogs:blog' blog.id %}">
+          <div class="row g-0">
+            <!-- Миниатюра слева -->
+            <div class="col-md-3">
+              {% with blog.post_set.all|first as first_post %}
+                {% if first_post.image %}
+                  <img src="{{ first_post.image.url }}" class="img-fluid rounded-start h-100" style="object-fit: cover;">
+                {% else %}
+                  <div class="bg-light d-flex align-items-center justify-content-center h-100 rounded-start" style="min-height: 120px;">
+                    <i class="fas fa-image fa-2x text-muted"></i>
+                  </div>
+                {% endif %}
+              {% endwith %}
+            </div>
+            
+            <!-- Текст справа -->
+            <div class="col-md-9">
+              <div class="card-body">
+                <h5 class="card-title">{{ blog.text }}</h5>
+                <p class="card-text">
+                  <small class="text-muted">by {{ blog.owner.username }}</small><br>
+                  <small class="text-muted">{{ blog.post_set.count }} posts</small>
+                </p>
+                <a href="{% url 'blogs:blog' blog.id %}" class="btn btn-primary btn-scale">Read</a>
+              </div>
             </div>
           </div>
         </div>
@@ -30,12 +46,23 @@
     </div>
   </div>
   
-  <div class="col-md-4">
-    <h3>Quick Links</h3>
-    <div class="list-group">
-      <a href="{% url 'blogs:bloges' %}" class="list-group-item list-group-item-action">All Blogs</a>
-      <a href="{% url 'blogs:new_blog' %}" class="list-group-item list-group-item-action">Create Blog</a>
+  <!-- Меню внизу -->
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <h3>Quick Links</h3>
+      <div class="list-group">
+        <a href="{% url 'blogs:bloges' %}" class="list-group-item list-group-item-action">All Blogs</a>
+        <a href="{% url 'blogs:new_blog' %}" class="list-group-item list-group-item-action">Create Blog</a>
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+document.querySelectorAll('.blog-card-clickable').forEach(function(card) {
+    card.addEventListener('click', function() {
+        window.location.href = this.dataset.url;
+    });
+});
+</script>
 {% endblock content %}

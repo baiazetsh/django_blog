@@ -1,17 +1,20 @@
 {% extends "blogs/base.html" %}
 {% load django_bootstrap5 %}
 
-
-
+{% block page_header %}
+<h2>Add New Post to: {{ blog.text }}</h2>
+{% endblock page_header %}
 
 {% block content %}
-  <p><a href="{% url 'blogs:blog' blog.id %}" class="btn btn-outline-secondary btn-outline-secondary">&laquo; {{ blog }}</a></p>
+  <p><a href="{% url 'blogs:blog' blog.id %}" class="btn btn-outline-secondary btn-scale">&laquo; Back to {{ blog }}</a></p>
 
-    <p>Add a new post</p>
+  <form action="{% url 'blogs:new_post' blog.id %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type='submit' class="btn btn-primary btn-lg btn-scale">
+      <i class="fas fa-plus"></i> Add Post
+    </button>
+  </form>
 
-    <form action="{% url 'blogs:new_post' blog.id %}"method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <button type='submit' class="btn btn-primary btn-lg btn-scale">add post</button>
-    </form>
-{% endblock content %}    
+  
+{% endblock content %}

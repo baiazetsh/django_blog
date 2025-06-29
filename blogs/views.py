@@ -22,7 +22,7 @@ def check_blog_owner(request, blog):
 def blog(request, blog_id):
     blog = get_object_or_404(Blog, id=blog_id)
     #check_blog_owner(request, blog)
-    posts = blog.post_set.order_by('-date_added')
+    posts = blog.post_set.order_by('date_added')
     #blogs = Blog.objects.filter(owner=request.user).order_by('date_added')
     context = {'blog': blog, 'posts': posts}
     return render(request, 'blogs/blog.html', context)
@@ -51,7 +51,7 @@ def new_post(request, blog_id):
     if request.method != 'POST':
         form = PostForm()
     else:
-        form = PostForm(data=request.POST)
+        form = PostForm(data=request.POST, files=request.FILES)
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.blog = blog
@@ -69,7 +69,7 @@ def edit_post(request, post_id):
     if request.method != 'POST':
         form = PostForm(instance=post)
     else:
-        form = PostForm(instance=post, data=request.POST)
+        form = PostForm(instance=post, data=request.POST, files=request.FILES)
         if form.is_valid():
             form.save()
             return redirect('blogs:blog', blog_id=blog.id)    
@@ -85,7 +85,7 @@ def bloges(request):
 @login_required
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=post_id)
-    comments = post.comments.order_by('-created_at')
+    comments = post.comments.order_by('created_at')
     if request.method == 'POST':
         form = CommentForm(data=request.POST)
         if form.is_valid():

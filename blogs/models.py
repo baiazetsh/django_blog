@@ -1,12 +1,10 @@
 from django.db import models
-
 from django.contrib.auth.models import User
+from cloudinary.models import CloudinaryField  # добавлено
 
 class Blog(models.Model):
     text = models.CharField(max_length=200)
-    #описание блога
     author = models.CharField(max_length=100)
-    #АВТОР БЛОГА
     date_added = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -16,12 +14,12 @@ class Blog(models.Model):
 
 class Post(models.Model):
     topic = models.CharField(max_length=100)
-    #тема поста
     text = models.TextField()
-    #само сообщение
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
-    #автор поста
     date_added = models.DateTimeField(auto_now_add=True)
+
+    # заменяем ImageField → CloudinaryField
+    image = CloudinaryField('image', blank=True, null=True)
 
     def __str__(self):
         return self.text
@@ -32,7 +30,6 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return f"{self.author.username}:{self.text[:50]}"
-
-# Create your models here.

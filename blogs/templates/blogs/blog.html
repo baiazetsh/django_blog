@@ -30,6 +30,11 @@
           </a>
         </div>
         <div class="card-body">
+          <!-- Изображение поста (перемещено сюда) -->
+          {% if post.image %}
+            <img src="{{ post.image.url }}" alt="Post image" class="img-fluid mb-3" style="max-height: 400px;">
+          {% endif %}
+          
           <div class="post-content">
             {{ post.text|linebreaks }}
           </div>

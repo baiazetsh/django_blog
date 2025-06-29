@@ -2,17 +2,25 @@
 {% load django_bootstrap5 %}
 
 {% block page_header %}
-<h2>Edit your post</h2>
+<h2>Edit Post</h2>
 {% endblock page_header %}
 
 {% block content %}
-
-  <p><a href="{% url 'blogs:blog' blog.id %}" class="btn btn-outline-secondary btn-outline-secondary">&laquo; {{ blog }}</a></p>
-  <p>Edit post &ShortDownArrow;</p>
-  <form action="{% url 'blogs:edit_post' post.id %}" method='post'>
+  <p><a href="{% url 'blogs:blog' blog.id %}" class="btn btn-outline-secondary btn-scale">&laquo; Back to {{ blog }}</a></p>
+  
+  <!-- Показать текущее изображение, если есть -->
+  {% if post.image %}
+    <div class="mb-3">
+      <p><strong>Current image:</strong></p>
+      <img src="{{ post.image.url }}" alt="Current post image" class="img-thumbnail" style="max-height: 200px;">
+    </div>
+  {% endif %}
+  
+  <form action="{% url 'blogs:edit_post' post.id %}" method='post' enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <button type="submit" class="btn btn-primary btn-lg btn-scale">save changes &raquo;</button>
+    <button type="submit" class="btn btn-primary btn-lg btn-scale">
+      <i class="fas fa-save"></i> Save Changes
+    </button>
   </form>
-
 {% endblock content %}
