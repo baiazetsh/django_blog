@@ -1,5 +1,12 @@
 {% extends "blogs/base.html" %}
 
+{% block title %}Home{% endblock title %}
+
+{% block description %}Discover amazing blogs and stories. Share your thoughts, read inspiring content, and connect with writers from around the world.{% endblock description %}
+
+{% block keywords %}blogs, stories, writing, read, share, thoughts, community, writers{% endblock keywords %}
+
+
 {% block page_header %}
 <div class="jumbotron text-center py-2 mb-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
   <h6 class="display-5">Welcome to Blogs</h6>
@@ -20,9 +27,9 @@
             <div class="col-md-3">
               {% with blog.post_set.all|first as first_post %}
                 {% if first_post.image %}
-                  <img src="{{ first_post.image.url }}" class="img-fluid rounded-start h-100" style="object-fit: cover;">
+                  <img src="{{ first_post.image.url }}" class="blog-card-image img-fluid rounded-start">
                 {% else %}
-                  <div class="bg-light d-flex align-items-center justify-content-center h-100 rounded-start" style="min-height: 120px;">
+                  <div class="bg-light d-flex align-items-center justify-content-center blog-card-image rounded-start">
                     <i class="fas fa-image fa-2x text-muted"></i>
                   </div>
                 {% endif %}

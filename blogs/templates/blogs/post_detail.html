@@ -1,6 +1,31 @@
 {% extends "blogs/base.html" %}
 {% load django_bootstrap5 %}
 
+{% block title %}{{ post.title|default:"Post" }} - {{ post.blog.text }}{% endblock title %}
+
+{% block description %}{{ post.text|truncatewords:25|striptags }} Read this post in {{ post.blog.text }} blog by {{ post.blog.owner.username }}.{% endblock description %}
+
+{% block keywords %}{{ post.blog.text }}, blog, post, {{ post.blog.owner.username }}, writing, story{% endblock keywords %}
+
+<!-- Open Graph теги для соцсетей -->
+{% block meta_description %}
+<meta property="og:title" content="{{ post.title|default:'Post' }} - {{ post.blog.text }}">
+<meta property="og:description" content="{{ post.text|truncatewords:25|striptags }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% if post.image %}
+<meta property="og:image" content="{{ post.image.url }}">
+{% endif %}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="{{ post.title|default:'Post' }} - {{ post.blog.text }}">
+<meta name="twitter:description" content="{{ post.text|truncatewords:25|striptags }}">
+{% if post.image %}
+<meta name="twitter:image" content="{{ post.image.url }}">
+{% endif %}
+{% endblock meta_description %}
+
 {% block page_header %}
 <h2>{{ post.blog.text }} - Post Details</h2>
 {% endblock page_header %}
@@ -43,7 +68,7 @@
         {% if user.is_authenticated %}
           <div class="mt-4">
             <h6>Add a comment:</h6>
-            <form action="" method="post">
+            <form method="post" action="{% url 'blogs:add_comment' post.id %}">
               {% csrf_token %}
               {% bootstrap_form form %}
               <button type="submit" class="btn btn-primary btn-scale">Add Comment</button>
@@ -60,6 +85,7 @@
     </div>
   </div>
 
+  <!-- ПРАВИЛЬНАЯ боковая панель -->
   <div class="col-lg-4">
     <div class="card">
       <div class="card-body">
@@ -69,6 +95,7 @@
           <li><strong>Author:</strong> {{ post.blog.owner.username }}</li>
           <li><strong>Published:</strong> {{ post.date_added|date:"M d, Y" }}</li>
           <li><strong>Comments:</strong> {{ comments|length }}</li>
+          <li><strong>Views:</strong> {{ post.views_count }} 👁️</li> <!-- ← СЧЕТЧИК ЗДЕСЬ -->
         </ul>
         <hr>
         <div class="d-grid gap-2">

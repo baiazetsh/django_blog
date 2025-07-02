@@ -184,3 +184,135 @@ ul {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
+/* Адаптивные изображения для карточек блогов */
+.blog-card-image {
+  object-fit: cover;
+  height: 120px;
+  width: 100%;
+  min-height: 100px; /* минимальная высота */
+}
+
+/* Исправление для десктопа */
+@media (min-width: 769px) {
+  .blog-card-image {
+    height: 230px; /* больше высота на десктопе */
+  }
+}
+
+/* На мобильных устройствах */
+@media (max-width: 768px) {
+  .blog-card-image {
+    height: 200px; /* достаточная высота для мобильных */
+    object-position: center; /* центрируем изображение */
+  }
+  
+  .card.mb-3 .row.g-0 {
+    flex-direction: column;
+  }
+  
+  .col-md-3, .col-md-9 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+/* Уменьшаем jumbotron на мобильных */
+@media (max-width: 768px) {
+  .jumbotron {
+    padding: 1.5rem 1rem !important;
+  }
+  
+  .display-5 {
+    font-size: 1.75rem !important;
+  }
+}
+/* Увеличиваем кнопки на мобильных */
+@media (max-width: 768px) {
+  .btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+/* Боковая панель под основным контентом */
+@media (max-width: 992px) {
+  .col-lg-4 {
+    margin-top: 2rem;
+  }
+}
+
+/* Кнопка "Наверх" */
+.scroll-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.scroll-to-top:hover {
+    background-color: #0056b3;
+    transform: translateY(0) scale(1.1);
+}
+
+.scroll-to-top.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-to-top i {
+    font-size: 20px;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .scroll-to-top {
+        width: 45px;
+        height: 45px;
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .scroll-to-top i {
+        font-size: 18px;
+    }
+}
+
+.scroll-to-top {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    width: 55px !important;
+    height: 55px !important;
+    background: #007bff !important;
+    color: white !important;
+    border: 2px solid #fff !important;
+    border-radius: 50% !important;
+    cursor: pointer !important;
+    z-index: 1000 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4) !important;
+    font-size: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+@media (max-width: 768px) {
+    .scroll-to-top {
+        width: 45px !important;
+        height: 45px !important;
+        bottom: 15px !important;
+        right: 15px !important;
+        font-size: 16px !important;
+    }
+}

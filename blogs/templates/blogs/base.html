@@ -3,7 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blogs</title>
+  
+  <!-- Динамический title -->
+  <title>{% block title %}Blogs{% endblock title %} - Share Your Stories</title>
+  {% if not block.super == 'Blogs' %} - Blogs{% endif %}
+
+
+  <!-- Favicon -->
+  {% load static %}
+  <link rel="icon" type="image/png" href="/static/images/favicon/favicon_b.png">
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon/favicon_b.png' %}">
+
+  <!-- Мета-теги для SEO -->
+  <meta name="description" content="{% block description %}A platform for sharing your thoughts, stories and ideas through blogging{% endblock description %}">
+  <meta name="keywords" content="{% block keywords %}blog, writing, stories, thoughts, sharing{% endblock keywords %}">
+  
+  <!-- Дополнительные мета-теги -->
+  {% block meta_description %}{% endblock meta_description %}
 
   {% load django_bootstrap5 %}
   {% bootstrap_css %}
@@ -67,6 +83,26 @@
     </div> <!-- Closes navbar's container -->
   </nav> <!-- End of navbar -->
 
+  <!-- ВОТ ЗДЕСЬ ДОБАВЛЯЕМ БЛОК MESSAGES -->
+  {% if messages %}
+    <div class="container">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>
+            {% if message.tags == 'success' %}✅
+            {% elif message.tags == 'error' %}❌
+            {% elif message.tags == 'warning' %}⚠️
+            {% else %}ℹ️
+            {% endif %}
+          </strong>
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+  <!-- КОНЕЦ БЛОКА MESSAGES -->
+
   <main class="container">
     <div class="pb-2 mb-2 border-bottom">
       {% block page_header %}{% endblock page_header %}
@@ -76,6 +112,34 @@
       {% block content %}{% endblock content %}
     </div>
   </main>
+
+<!-- Кнопка "Наверх" -->
+<button class="scroll-to-top" id="scrollToTop" aria-label="Scroll to top">
+    <i class="fas fa-arrow-up"></i>
+</button>
+<script>
+// Кнопка "Наверх"
+window.addEventListener('scroll', function() {
+    const scrollToTopBtn = document.getElementById('scrollToTop');
+    
+    if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('show');
+    } else {
+        scrollToTopBtn.classList.remove('show');
+    }
+});
+
+document.getElementById('scrollToTop').addEventListener('click', function() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+</script>
+
+</body>
+
+
 
 </body>
 </html>
